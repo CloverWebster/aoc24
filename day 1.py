@@ -25,5 +25,5 @@ for x in range(0,len(first)):
     total2 += first[x] * instances
 
 
-print(total1)
-print(total2)
+print('part 1 answer:', total1)
+print('part 2 answer:', total2)
