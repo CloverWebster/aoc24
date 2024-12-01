@@ -16,9 +16,7 @@ second = sorted(second)
 
 for x in range(0,len(first)):
     difference = second[x] - first[x]
-    if difference < 0:
-        difference = difference * (-1)
-    total1 += difference
+    total1 += abs(difference)
 
 for x in range(0,len(first)):
     instances = second.count(first[x])
