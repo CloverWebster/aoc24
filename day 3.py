@@ -34,10 +34,10 @@ def part1():
 
 def part2():
     total = 0
+    mul = True
     for y in data:
         line = y + '..........do()don\'t()'
         line = line.replace('\'','-')
-        mul = True
         while 'mul(' in line:
             pos = line.index('mul(')
             while line.index('do()') < pos or line.index('don-t()') < pos:
