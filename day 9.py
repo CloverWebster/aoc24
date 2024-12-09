@@ -67,7 +67,6 @@ def part2():
             swap = False
             if diskMap[y][0]=='.' and y < x and len(diskMap[y]) >= len(diskMap[x]) and diskMap[x][0]!= '.':
                 swap = True
-                #here is the problem
                 for i in range(0,len(diskMap[x])):
                     diskMap[y][i] = diskMap[x][i]
                 for i in range(0,len(diskMap[x])):
@@ -114,5 +113,5 @@ def part2():
 
 
 
-#part1()
+part1()
 part2()
