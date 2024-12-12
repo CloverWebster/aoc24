@@ -171,7 +171,6 @@ def part2():
                         regions += newRegions
                 area = len(regions)
                 perim = peri(upEdge) + peri(downEdge)+ peri(leftEdge)+peri(rightEdge)
-                #print('area',area,'per',perim)
                 price += area *perim
     print('part 2:',price)
 part2()
