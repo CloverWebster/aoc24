@@ -59,7 +59,62 @@ for i in range(0,len(data)):
     robots.append(Robots(x,y,v1,v2))
 
 
-for sec in range(0,100):
+def part1():
+    left = len(grid[0])//2 -1
+    right = len(grid[0])//2 +1
+    up = len(grid)//2 -1
+    down = len(grid)//2 +1
+    q1,q2,q3,q4 = 0,0,0,0
+    for instance in robots:
+        if instance.xpos <= left and instance.ypos <= up:
+            q1 +=1
+        elif instance.xpos >= right and instance.ypos <= up:
+            q2 +=1
+        elif instance.xpos <= left and instance.ypos >= down:
+            q3 +=1
+        elif instance.xpos >= right and instance.ypos >= down:
+            q4 +=1
+    print('part 1:',q1*q2*q3*q4)
+
+#[y,[x],y,[x]]
+def lineCheck(array):
+    inst = []
+    for instance in array:
+        if instance.ypos in inst:
+            inst[inst.index(instance.ypos)+1].append(instance.xpos)
+        else:
+            inst.append(instance.ypos)
+            inst.append([instance.xpos])
+    for i in range(1,len(inst),2):
+        allX = inst[i]
+        allX.sort()
+        streak,top = 0,0
+        for c in range(1,len(allX)):
+            if allX[c-1] +1 == allX[c]:
+                streak += 1
+            elif allX[c-1] +1 < allX[c]:
+                if streak > top:
+                    top = streak
+                    streak =0
+        if top >= 30 or streak >= 30:
+            return True
+    return False
+
+
+def printing(table, robos):
+    for instance in robos:
+        table[instance.ypos][instance.xpos] = 'X'
+    for line in table:
+        curr = ''
+        for cell in line:
+            curr += cell
+        print(curr)
+
+
+sec = 0
+while lineCheck(robots) is False:
+    if sec == 100:
+        part1()
     newRobots = []
     for instance in robots:
         for x in range(0,abs(instance.vx)):
@@ -74,22 +129,11 @@ for sec in range(0,100):
                 instance = moveUp(instance)
         newRobots.append(instance)
     robots = newRobots
+    sec +=1
 
-left = len(grid[0])//2 -1
-right = len(grid[0])//2 +1
-up = len(grid)//2 -1
-down = len(grid)//2 +1
-q1,q2,q3,q4 = 0,0,0,0
-for instance in robots:
-    if instance.xpos <= left and instance.ypos <= up:
-        q1 +=1
-    elif instance.xpos >= right and instance.ypos <= up:
-        q2 +=1
-    elif instance.xpos <= left and instance.ypos >= down:
-        q3 +=1
-    elif instance.xpos >= right and instance.ypos >= down:
-        q4 +=1
-print(q1*q2*q3*q4)
+printing(grid,robots)
+print('part 2:',sec)
+
 
 
 
