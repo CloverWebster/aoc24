@@ -9,14 +9,14 @@ class Reindeer:
         self.start =start
         self.end = end
 
-cs =76
+cs =72
 cs1 = cs + 1
 
 with open('20.txt') as j:
     data = [i for i in j.read().strip().split("\n")]
 
 add = ['#','#']
-oneAdd = [9999,[]]
+oneAdd = 9999
 add1 = [oneAdd, oneAdd]
 for cell in data[0]:
     add.append('#')
@@ -44,33 +44,23 @@ def printing():
 printing()
 
 def move(reind):
-    if first is True:
-        print(minscores[reind.ypos][reind.xpos][0])
+    global minscores
     #up
     if grid[reind.ypos-1][reind.xpos] != '#' and reind.dire != 'S':
-        if reind.score+1 <= minscores[reind.ypos-1][reind.xpos][0]:
+        if reind.score+1 <= minscores[reind.ypos-1][reind.xpos]:
             newRein.append(Reindeer(reind.xpos, reind.ypos-1, 'N', reind.score +1,reind.skip, False,'0,0','0,0'))
-            if first is True:
-                print('set')
-                minscores[reind.ypos][reind.xpos][0] = reind.score 
     #down
     if grid[reind.ypos+1][reind.xpos] != '#' and reind.dire != 'N':
-        if reind.score+1 <= minscores[reind.ypos+1][reind.xpos][0]:
+        if reind.score+1 <= minscores[reind.ypos+1][reind.xpos]:
             newRein.append(Reindeer(reind.xpos, reind.ypos+1, 'S', reind.score +1,reind.skip, False,'0,0','0,0'))
-            if first is True:
-                minscores[reind.ypos][reind.xpos][0] = reind.score 
     #left
     if grid[reind.ypos][reind.xpos-1] != '#' and reind.dire != 'E':
-        if reind.score+1 <= minscores[reind.ypos][reind.xpos-1][0]:
+        if reind.score+1 <= minscores[reind.ypos][reind.xpos-1]:
             newRein.append(Reindeer(reind.xpos-1, reind.ypos, 'W', reind.score +1,reind.skip, False,'0,0','0,0'))
-            if first is True:
-                minscores[reind.ypos][reind.xpos][0] = reind.score 
     #right
     if grid[reind.ypos][reind.xpos+1] != '#' and reind.dire != 'W':
-        if reind.score+1 <= minscores[reind.ypos][reind.xpos+1][0]:
+        if reind.score+1 <= minscores[reind.ypos][reind.xpos+1]:
             newRein.append(Reindeer(reind.xpos+1, reind.ypos, 'E', reind.score +1,reind.skip, False,'0,0','0,0'))
-            if first is True:
-                minscores[reind.ypos][reind.xpos][0] = reind.score 
     '''
     if first is True and reind.score < 10:
         for line in minscores:
@@ -86,19 +76,19 @@ def move(reind):
     if reind.skip is False and first is False:
         #up
         if grid[reind.ypos-2][reind.xpos] != '#' and reind.dire != 'S':
-            if reind.score+cs1 <= minscores[reind.ypos-2][reind.xpos][0]:
+            if reind.score+cs1 <= minscores[reind.ypos-2][reind.xpos]:
                 newRein.append(Reindeer(reind.xpos, reind.ypos-2, 'N', reind.score +2,True, False,'0,0','0,0'))
         #down
         if grid[reind.ypos+2][reind.xpos] != '#' and reind.dire != 'N':
-            if reind.score+cs1 <= minscores[reind.ypos+2][reind.xpos][0]:
+            if reind.score+cs1 <= minscores[reind.ypos+2][reind.xpos]:
                 newRein.append(Reindeer(reind.xpos, reind.ypos+2, 'S', reind.score +2,True, False,'0,0','0,0'))
         #left
         if grid[reind.ypos][reind.xpos-2] != '#' and reind.dire != 'E':
-            if reind.score+cs1 <= minscores[reind.ypos][reind.xpos-2][0]:
+            if reind.score+cs1 <= minscores[reind.ypos][reind.xpos-2]:
                 newRein.append(Reindeer(reind.xpos-2, reind.ypos, 'W', reind.score +2,True, False,'0,0','0,0'))
         #right
         if grid[reind.ypos][reind.xpos+2] != '#' and reind.dire != 'W':
-            if reind.score+cs1 <= minscores[reind.ypos][reind.xpos+2][0]:
+            if reind.score+cs1 <= minscores[reind.ypos][reind.xpos+2]:
                 newRein.append(Reindeer(reind.xpos+2, reind.ypos, 'E', reind.score +2,True, False,'0,0','0,0'))
 
 
@@ -109,6 +99,8 @@ def firstR():
         newRein =[]
         for instance in rein:
             move(instance)
+        for instance in newRein:
+            minscores[instance.ypos][instance.xpos] = instance.score
         x =0
         while x < len(newRein):
             instance = newRein[x]
@@ -118,6 +110,7 @@ def firstR():
             else:
                 x +=1
         rein=newRein
+    print(bascTotal)
 
 for y in range(0,len(grid)):
     if 'S' in grid[y]:
@@ -159,7 +152,7 @@ allR()
 
 
 add = ['#','#']
-oneAdd = [9999,[]]
+oneAdd = 9999
 add1 = [oneAdd, oneAdd]
 for cell in data[0]:
     add.append('#')
@@ -182,28 +175,28 @@ minscores.append(add1)
 
 def leftOver(ren,dir):
     if ren.ypos > 0 and ren.dire != 'S'and dir =='N':
-        if grid[ren.ypos-1][ren.xpos] != '#':
-            if ren.score+cs1 <= minscores[ren.ypos-1][ren.xpos][0]:
-                newScore = ren.score +1+ (bascTotal - minscores[ren.ypos-1][ren.xpos][0])
-                newRein.append(Reindeer(endx, endy, 'N', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos)))
+        if minscores[ren.ypos-1][ren.xpos] != 9999:
+            if ren.score+cs1 <= minscores[ren.ypos-1][ren.xpos]:
+                newScore = ren.score +1+ (bascTotal - minscores[ren.ypos-1][ren.xpos])
+                newRein.append(Reindeer(endx, endy, 'N', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos-1)))
     #down
     if ren.ypos < len(grid)-1 and ren.dire != 'N'and dir =='S':
-        if grid[ren.ypos+1][ren.xpos] != '#':
-            if ren.score+cs1 <= minscores[ren.ypos+1][ren.xpos][0]:
-                newScore = ren.score +1+ (bascTotal -minscores[ren.ypos+1][ren.xpos][0])
-                newRein.append(Reindeer(endx, endy, 'S', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos)))
+        if minscores[ren.ypos+1][ren.xpos] != 9999:
+            if ren.score+cs1 <= minscores[ren.ypos+1][ren.xpos]:
+                newScore = ren.score +1+ (bascTotal -minscores[ren.ypos+1][ren.xpos])
+                newRein.append(Reindeer(endx, endy, 'S', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos+1)))
     #left
     if ren.xpos > 0 and ren.dire != 'E'and dir =='W':
-        if grid[ren.ypos][ren.xpos-1] != '#':
-            if ren.score+cs1 <= minscores[ren.ypos][ren.xpos-1][0]:
-                newScore = ren.score +1+ (bascTotal - minscores[ren.ypos][ren.xpos-1][0])
-                newRein.append(Reindeer(endx, endy, 'W', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos)))
+        if minscores[ren.ypos][ren.xpos-1] != 9999:
+            if ren.score+cs1 <= minscores[ren.ypos][ren.xpos-1]:
+                newScore = ren.score +1+ (bascTotal - minscores[ren.ypos][ren.xpos-1])
+                newRein.append(Reindeer(endx, endy, 'W', newScore,True, False,ren.start, str(ren.xpos-1)+','+str(ren.ypos)))
     #right
     if ren.xpos < len(grid[0])-1 and ren.dire != 'W'and dir =='E':
-        if grid[ren.ypos][ren.xpos+1] != '#':
-            if ren.score+cs1 <= minscores[ren.ypos][ren.xpos+1][0]:
-                newScore = ren.score +1+ (bascTotal -minscores[ren.ypos][ren.xpos+1][0])
-                newRein.append(Reindeer(endx, endy, 'E', newScore,True, False,ren.start, str(ren.xpos)+','+str(ren.ypos)))
+        if minscores[ren.ypos][ren.xpos+1] != 9999:
+            if ren.score+cs1 <= minscores[ren.ypos][ren.xpos+1]:
+                newScore = ren.score +1+ (bascTotal -minscores[ren.ypos][ren.xpos+1])
+                newRein.append(Reindeer(endx, endy, 'E', newScore,True, False,ren.start, str(ren.xpos+1)+','+str(ren.ypos)))
 
 
 
@@ -212,19 +205,19 @@ def move2(reind):
     if reind.actSkip is False:
         #up
         if grid[reind.ypos-1][reind.xpos] != '#' and reind.dire != 'S':
-            if reind.score+1 <= minscores[reind.ypos-1][reind.xpos][0]:
+            if reind.score+1 <= minscores[reind.ypos-1][reind.xpos]:
                 newRein.append(Reindeer(reind.xpos, reind.ypos-1, 'N', reind.score +1,reind.skip, False, '0,0','0,0'))
         #down
         if grid[reind.ypos+1][reind.xpos] != '#' and reind.dire != 'N':
-            if reind.score+1 <= minscores[reind.ypos+1][reind.xpos][0]:
+            if reind.score+1 <= minscores[reind.ypos+1][reind.xpos]:
                 newRein.append(Reindeer(reind.xpos, reind.ypos+1, 'S', reind.score +1,reind.skip, False, '0,0','0,0'))
         #left
         if grid[reind.ypos][reind.xpos-1] != '#' and reind.dire != 'E':
-            if reind.score+1 <= minscores[reind.ypos][reind.xpos-1][0]:
+            if reind.score+1 <= minscores[reind.ypos][reind.xpos-1]:
                 newRein.append(Reindeer(reind.xpos-1, reind.ypos, 'W', reind.score +1,reind.skip, False, '0,0','0,0'))
         #right
         if grid[reind.ypos][reind.xpos+1] != '#' and reind.dire != 'W':
-            if reind.score+1 <= minscores[reind.ypos][reind.xpos+1][0]:
+            if reind.score+1 <= minscores[reind.ypos][reind.xpos+1]:
                 newRein.append(Reindeer(reind.xpos+1, reind.ypos, 'E', reind.score +1,reind.skip, False, '0,0','0,0'))
     
 
@@ -232,7 +225,7 @@ def move2(reind):
         #up
         if reind.ypos > 0 and reind.dire != 'S':
             if reind.actSkip == 20:
-                reind.start = str(str(reind.xpos) +','+str(reind.ypos-1))
+                reind.start = str(str(reind.xpos) +','+str(reind.ypos))
             if grid[reind.ypos-1][reind.xpos] == '#':
                 newRein.append(Reindeer(reind.xpos, reind.ypos-1, 'N', reind.score +1,True, reind.actSkip-1, reind.start, reind.end))
             elif reind.actSkip != 20:
@@ -240,7 +233,7 @@ def move2(reind):
         #down
         if reind.ypos < len(grid)-1 and reind.dire != 'N':
             if reind.actSkip == 20:
-                reind.start = str(str(reind.xpos) +','+str(reind.ypos+1))
+                reind.start = str(str(reind.xpos) +','+str(reind.ypos))
             if grid[reind.ypos+1][reind.xpos] == '#':
                 newRein.append(Reindeer(reind.xpos, reind.ypos+1, 'S', reind.score +1,True, reind.actSkip-1, reind.start, reind.end))
             elif reind.actSkip != 20:
@@ -248,7 +241,7 @@ def move2(reind):
         #left
         if reind.xpos > 0 and reind.dire != 'E':
             if reind.actSkip == 20:
-                reind.start = str(str(reind.xpos-1) +','+str(reind.ypos))
+                reind.start = str(str(reind.xpos) +','+str(reind.ypos))
             if grid[reind.ypos][reind.xpos-1] == '#':
                 newRein.append(Reindeer(reind.xpos-1, reind.ypos, 'W', reind.score +1,True, reind.actSkip-1, reind.start, reind.end))
             elif reind.actSkip != 20:
@@ -256,7 +249,7 @@ def move2(reind):
         #right
         if reind.xpos < len(grid[0])-1 and reind.dire != 'W':
             if reind.actSkip == 20:
-                reind.start = str(str(reind.xpos+1) +','+str(reind.ypos))
+                reind.start = str(str(reind.xpos) +','+str(reind.ypos))
             if grid[reind.ypos][reind.xpos+1] == '#':
                 newRein.append(Reindeer(reind.xpos+1, reind.ypos, 'E', reind.score +1,True, reind.actSkip-1, reind.start, reind.end))
             elif reind.actSkip != 20:
@@ -279,10 +272,6 @@ def allR2():
         if 'S' in grid[y]:
             xpos, ypos = grid[y].index('S'), y
             rein = [Reindeer(xpos,ypos, '',0,False, False,'0,0','0,0')]
-    for line in minscores:
-        curr = ''
-        for cell in line:
-            curr += str(cell[0]) + ' '
     while len(rein) > 0:
         if rein[0].score > bascTotal - cs:
             break
@@ -298,8 +287,8 @@ def allR2():
             if instance.xpos == endx and instance.ypos == endy:
                 cheat = [instance.start, instance.end]
                 if instance.score <= bascTotal-cs and cheat not in finishCheats:
-                    #print('score',instance.score)
-                    #print('add',bascTotal-instance.score, instance.start, instance.end, instance.skip)
+                    print('score',instance.score)
+                    print('add',bascTotal-instance.score, instance.start, instance.end, instance.skip)
                     total += 1
                     finishCheats.append(cheat)
                 newRein.pop(x)
@@ -314,9 +303,4 @@ for y in range(0,len(grid)):
         xpos, ypos = grid[y].index('S'), y
         rein = [Reindeer(xpos,ypos, '',0,False, False,'0,0','0,0')]
 firstR()
-for line in minscores:
-    curr = ''
-    for cell in line:
-        curr += str(cell[0]) +' '
-    print(curr)
 allR2()
