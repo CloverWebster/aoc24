@@ -1,5 +1,3 @@
-
-
 def findNextDot(x,y):
     if data[y][x-1] == '.':
         return x-1,y
@@ -78,4 +76,3 @@ def main(cheat):
 
 main(2)
 main(20)
-
